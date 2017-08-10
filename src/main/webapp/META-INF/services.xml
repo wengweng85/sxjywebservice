@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- webService发布名称,命名空间 -->
+<service name="HelloServiceNew" targetNamespace="http://ws.apache.org/ax2">
+	<!-- 更改schemaNamespace，也可使用默认值，客户端调用时会使用 -->
+	<schema schemaNamespace="http://sdjxd.com.cn" />
+	<!-- webService描述 -->
+	<description>Web Service实例一</description>
+	<!-- webService的实现类 -->
+	<parameter name="ServiceClass">com.sinosoft.webservice.HelloServiceNew
+	</parameter>
+	<messageReceivers>
+		<!-- 配置消息接收器，Axis2会自动选择 -->
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out"
+			class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only"
+			class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+	</messageReceivers>
+</service>      

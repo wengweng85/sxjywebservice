@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>zynljsweb</display-name>
+
+   <!--log4j配置文件加载-->
+    <context-param>
+       <param-name>log4jConfigLocation</param-name>      
+       <param-value>classpath:log4j.properties</param-value>
+    </context-param>
+	<!-- 指定Spring Bean的配置文件所在目录。默认配置在WEB-INF目录下 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:config/spring/applicationContext*.xml</param-value>
+	</context-param>
+   <!--spring log4j监听器-->  
+   <listener>      
+       <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>      
+   </listener>
+   <!-- spring listener -->
+   <listener>  
+	   <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+   </listener>
+	
+	<!-- springmvc -->
+	
+	<servlet>
+	    <servlet-name>springmvc</servlet-name>
+	    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	    <init-param>
+	      <param-name>contextConfigLocation</param-name>
+	      <param-value>classpath*:config/spring/spring-mvc.xml</param-value>
+	    </init-param>
+	    <load-on-startup>1</load-on-startup>
+	</servlet>
+    <servlet-mapping>
+	    <servlet-name>springmvc</servlet-name>
+	    <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+  
+   
+   <!--  
+    <servlet>     
+        <servlet-name>HessianServlet</servlet-name>     
+        <servlet-class>com.caucho.hessian.server.HessianServlet</servlet-class>     
+        <init-param>     
+            <param-name>home-class</param-name>     
+            <param-value>com.insigma.webservice.hessianservice.HessianServiceImpl</param-value>     
+        </init-param>     
+        <init-param>     
+            <param-name>home-api</param-name>
+            <param-value>com.insigma.webservice.hessianservice.HessianService</param-value>     
+        </init-param>     
+    </servlet>
+    
+    <servlet-mapping>     
+        <servlet-name>HessianServlet</servlet-name>     
+        <url-pattern>/hessianService</url-pattern>     
+    </servlet-mapping>
+     -->
+    <servlet>
+		<display-name>Apache-Axis Servlet</display-name>
+		<servlet-name>AxisServlet</servlet-name>
+		<servlet-class>org.apache.axis.transport.http.AxisServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AxisServlet</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
+</web-app>

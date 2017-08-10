@@ -1,0 +1,29 @@
+-- Create table
+create table JK_KEY
+(
+  ym    VARCHAR2(8) not null,
+  sqnum NUMBER
+);
+-- Add comments to the table 
+comment on table JK_KEY
+  is '接口业务流水号记录表,不能删除';
+-- Add comments to the columns 
+comment on column JK_KEY.ym
+  is '日期号';
+comment on column JK_KEY.sqnum
+  is '计数器';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JK_KEY
+  add constraint PK_JK_KEY primary key (YM)
+  using index 
+  tablespace USERS
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );

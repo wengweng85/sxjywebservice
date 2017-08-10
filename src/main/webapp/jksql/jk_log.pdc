@@ -1,0 +1,47 @@
+-- Create table
+create table JK_LOG
+(
+  jk_id          VARCHAR2(32) not null,
+  jk_key         VARCHAR2(32),
+  jk_send_xml    CLOB,
+  jk_type        VARCHAR2(10),
+  jk_sender      VARCHAR2(10),
+  jk_receiver    VARCHAR2(10),
+  jk_call_begin  DATE,
+  jk_call_end    DATE,
+  jk_result      VARCHAR2(10),
+  jk_return_xml  CLOB,
+  jk_return_code VARCHAR2(10),
+  jk_return_msg  VARCHAR2(500)
+);
+-- Add comments to the table 
+comment on table JK_LOG
+  is '接口日志表';
+-- Add comments to the columns 
+comment on column JK_LOG.jk_id
+  is '接口日志id';
+comment on column JK_LOG.jk_key
+  is '接口key';
+comment on column JK_LOG.jk_send_xml
+  is '发送xml';
+comment on column JK_LOG.jk_type
+  is '接口类型';
+comment on column JK_LOG.jk_sender
+  is '接口发送方';
+comment on column JK_LOG.jk_receiver
+  is '接口接收方';
+comment on column JK_LOG.jk_call_begin
+  is '开始时间';
+comment on column JK_LOG.jk_call_end
+  is '结束时间';
+comment on column JK_LOG.jk_result
+  is '调用结果(1成功 0失败)';
+comment on column JK_LOG.jk_return_xml
+  is '返回xml';
+comment on column JK_LOG.jk_return_code
+  is '返回状态';
+comment on column JK_LOG.jk_return_msg
+  is '返回信息';
+-- Create/Recreate primary, unique and foreign key constraints 
+alter table JK_LOG
+  add constraint PK_JK_LOG primary key (JK_ID);

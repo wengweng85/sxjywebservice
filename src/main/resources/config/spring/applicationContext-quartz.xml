@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	">
+
+    <bean id="jkJob" class="com.insigma.webservice.job.JkJob">
+        <property name="servicecall">
+			<ref bean="servicecall" />
+		</property>
+    </bean>
+    
+    
+    <!-- 日志清理任务 -->
+    <bean id="jkLogCleanJob" class="com.insigma.webservice.job.JkLogCleanJob">
+        <property name="hbfactory" ref="hbfactory" />
+    </bean>
+    
+
+	<!-- 定义调用对象和调用对象的方法 -->
+	<bean id="jktask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject">
+			<ref bean="jkJob" />
+		</property>
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod">
+			<value>work</value>
+		</property>
+	</bean>
+	
+	
+	<bean id="jklogcleantask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<!-- 调用的类 -->
+		<property name="targetObject">
+			<ref bean="jkLogCleanJob" />
+		</property>
+		<!-- 调用类中的方法 -->
+		<property name="targetMethod">
+			<value>work</value>
+		</property>
+	</bean>
+	
+	
+	
+	<!--统一门户接口调用-->
+	<bean id="doJkTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="jktask" />
+		</property>
+		<!-- cron表达式 每隔10分钟 早上8点到晚上11点 -->
+		<property name="cronExpression">
+			<value>0 0/10 8-23 * * ?</value>
+		</property>
+	</bean>
+	
+	<bean id="doJkLogCleanTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="jklogcleantask" />
+		</property>
+		<!-- cron表达式 每天11点整 -->
+		<property name="cronExpression">
+			<value>0 0 11 * * ?</value>
+		</property>
+	</bean>
+	
+	
+	
+
+	<!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序 -->
+	<bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+			  <ref bean="doJkTime"/>
+			  <ref bean="doJkLogCleanTime"/> 
+			</list>
+		</property>
+	</bean>
+</beans>
